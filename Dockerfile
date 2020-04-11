@@ -1,6 +1,7 @@
 FROM nipreps/nitransforms:base
 
 RUN pip install --no-cache notebook
+RUN pip install --no-cache git+https://github.com/poldracklab/niworkflows.git@master
 
 ARG NB_UID
 ARG NB_USER
@@ -13,7 +14,7 @@ RUN adduser --disabled-password \
     --uid ${NB_UID} \
     ${NB_USER}
 WORKDIR ${HOME}
-COPY docs/notebooks/* $HOME/
+COPY docs/* $HOME/
 ENV NT_TEST_DATA=$HOME/data
 
 # Install package
