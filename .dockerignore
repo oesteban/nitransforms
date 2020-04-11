@@ -1,0 +1,9 @@
+
+.codecov.yml
+.gitignore
+.pep8speaks
+.travis.yml
+.circleci/
+dist/
+docs/
+joss/
