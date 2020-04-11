@@ -13,6 +13,8 @@ RUN adduser --disabled-password \
     --uid ${NB_UID} \
     ${NB_USER}
 WORKDIR ${HOME}
+COPY docs/notebooks/* $HOME/
+ENV NT_TEST_DATA=$HOME/data
 
 # Install package
 # CRITICAL: Make sure python setup.py --version has been run at least once
@@ -20,7 +22,9 @@ WORKDIR ${HOME}
 COPY . /src/nitransforms
 RUN pip install --no-cache-dir "/src/nitransforms[all]"
 
-COPY docs/notebooks/* $HOME/
+RUN curl -sSL "https://files.osf.io/v1/resources/fvuh8/providers/osfstorage/5e7d5b65c3f8d300bafa05e0/?zip=" -o data.zip && \
+    python -c "from pathlib import Path; import zipfile as z; zr = z.ZipFile('data.zip', 'r'); zr.extractall(str(Path.home() / 'data'))" && \
+    rm data.zip
 
 RUN find $HOME -type d -exec chmod go=u {} + && \
     find $HOME -type f -exec chmod go=u {} +
