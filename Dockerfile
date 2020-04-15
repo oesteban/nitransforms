@@ -14,7 +14,8 @@ RUN adduser --disabled-password \
     --uid ${NB_UID} \
     ${NB_USER}
 WORKDIR ${HOME}
-COPY docs/* $HOME/
+COPY docs/_static/* $HOME/_static/
+COPY docs/notebooks/*.ipynb $HOME/
 ENV NT_TEST_DATA=$HOME/data
 
 # Install package
